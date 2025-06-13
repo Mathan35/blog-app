@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto px-4 py-8">
-        <h2 class="text-3xl font-bold mb-8 text-center text-blue-800">Featured Blogs</h2>
+        <h2 class="text-3xl font-bold mb-8 text-center text-grablocky-800">Featured Blogs</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div v-for="blog in blogs" :key="blog.id"
