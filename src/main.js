@@ -1,9 +1,9 @@
 // src/main.js
-import './assets/main.css';
+import '@/assets/main.css';
 
 import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router'; // <--- ADD THIS LINE to import your router
+import App from '@/App.vue';
+import router from '@/router'; // <--- ADD THIS LINE to import your router
 
 const app = createApp(App);
 
