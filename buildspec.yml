@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    ImageName: simple-docker-service
+    ImageName: SimpleDockerService
 
 phases:
   install:
