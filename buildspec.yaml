@@ -1,0 +1,37 @@
+version: 0.2
+
+env:
+  variables:
+    ImageName: simple-docker-service
+
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm install
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 850995571296.dkr.ecr.us-east-1.amazonaws.com
+
+  build:
+    commands:
+      - echo Building Vue.js app...
+      - npm run build
+      - echo Building Docker image...
+      - docker build -t $ImageName .
+
+  post_build:
+    commands:
+      - echo Tagging Docker image...
+      - docker tag $ImageName:latest 850995571296.dkr.ecr.us-east-1.amazonaws.com/$ImageName:latest
+      - echo Pushing image to ECR...
+      - docker push 850995571296.dkr.ecr.us-east-1.amazonaws.com/$ImageName:latest
+
+artifacts:
+  files:
+    - '**/*'
