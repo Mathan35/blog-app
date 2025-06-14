@@ -3,29 +3,33 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18 # This is the recommended Node.js version for Amplify Gen 2
+      nodejs: 18 # You can use Node.js 18 for Gen 1 CLI, but older versions like 16 or 14 are also compatible if preferred.
     commands:
-      # Install the Amplify Gen 2 CLI (now named ampx) globally
-      - npm install -g @aws-amplify/cli@latest
-      # Ensure npm global bin is in PATH
+      # 1. Install a specific, latest Gen 1 compatible version of the Amplify CLI
+      - npm install -g @aws-amplify/cli@12 # This installs the latest Gen 1 compatible CLI
+      # 2. Ensure npm global bin is in PATH for 'amplify' command
       - export PATH=$(npm config get prefix)/bin:$PATH
-      # Install your frontend project's dependencies
+      # 3. Install your frontend project's dependencies
       - npm ci
 
   pre_build:
     commands:
-      # Use the correct Gen 2 command: ampx pull
-      - ampx pull --appId d3n39g6wi0n3qw --envName $AMPLIFY_ENV_NAME --yes
-      # ... rest of your pre_build commands if any (e.g., cp amplify_outputs.json)
+      # 4. Now, the 'amplify pull' command (Gen 1) should work
+      - amplify pull --appId d3n39g6wi0n3qw --envName $AMPLIFY_ENV_NAME --yes
+      # The 'amplify pull' command for Gen 1 will generate 'aws-exports.js'
+      # Make sure your 'src/main.js' imports from '../aws-exports' (not amplify_outputs.json)
+      # No need to copy 'aws-exports.js' if 'amplify pull' puts it in the root.
 
   build:
     commands:
-      - npm run build
+      - npm run build # Your regular Vue build command
 
   post_build:
     commands:
-      # ... (your S3 sync commands)
+      # Your commands to sync your 'dist' folder to S3 here
+      # For example, using the AWS CLI:
+      # - aws s3 sync dist/ s3://your-s3-bucket-name --delete
 artifacts:
   files:
     - '**/*'
-  baseDirectory: dist
+  baseDirectory: dist # Your Vue build output directory (e.g., 'dist' for Vite)
