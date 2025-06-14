@@ -7,6 +7,18 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm install
+  
+  pre_build:
+    commands:
+      # Pull the backend configuration for the specific environment
+      # IMPORTANT: Replace <YOUR_AMPLIFY_APP_ID> with your Amplify App ID.
+      # You can find this in the AWS Amplify Console -> Backend environments.
+      # It looks like dXXXXXXXXXXXXXXXXX.
+      # IMPORTANT: Replace <YOUR_BACKEND_ENV_NAME> with the name of the backend environment
+      #            you want your S3 frontend to connect to (e.g., 'production', 'staging').
+      #            This should ideally come from a CI/CD environment variable.
+      - amplify pull --appId d3n39g6wi0n3qw --envName $AMPLIFY_ENV_NAME --yes
+      # The 'amplify pull' command will place aws-exports.js in your project root.
 
   build:
     commands:
