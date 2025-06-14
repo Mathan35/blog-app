@@ -3,30 +3,28 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 18 # Or your specific Node.js version
     commands:
-      - echo Installing dependencies...
-      - npm install
-  
+      - npm ci # Install your frontend project's dependencies
+      # You *might* still need the global install for other reasons,
+      # but for `amplify pull` specifically, npx can often find it.
+      # If you're confident `npx` will resolve it, you could even remove the global install here
+      - npm install -g @aws-amplify/cli@latest # Keep this for robustness
+
   pre_build:
     commands:
-      # Pull the backend configuration for the specific environment
-      # IMPORTANT: Replace <YOUR_AMPLIFY_APP_ID> with your Amplify App ID.
-      # You can find this in the AWS Amplify Console -> Backend environments.
-      # It looks like dXXXXXXXXXXXXXXXXX.
-      # IMPORTANT: Replace <YOUR_BACKEND_ENV_NAME> with the name of the backend environment
-      #            you want your S3 frontend to connect to (e.g., 'production', 'staging').
-      #            This should ideally come from a CI/CD environment variable.
-      - amplify pull --appId d3n39g6wi0n3qw --envName $AMPLIFY_ENV_NAME --yes
-      # The 'amplify pull' command will place aws-exports.js in your project root.
+      # Call amplify using npx
+      - npx amplify pull --appId d3n39g6wi0n3qw --envName $AMPLIFY_ENV_NAME --yes
+      # ... rest of your pre_build commands
 
   build:
     commands:
-      - echo Building Vue project...
       - npm run build
 
+  post_build:
+    commands:
+      # ... (your S3 sync commands)
 artifacts:
   files:
     - '**/*'
-  base-directory: dist
-  discard-paths: no
+  baseDirectory: dist
