@@ -9,7 +9,7 @@ import BlogDetailPage from '@/pages/BlogDetailPage.vue'
 import AddBlogPage from '@/pages/AddBlogPage.vue' 
 import MyBlogPage from '@/pages/MyBlogPage.vue' 
 import VerifyBlogsPage from '@/pages/VerifyBlogsPage.vue' 
-import CallBackVue from '@/pages/CallBack.vue'
+import CallBackPage from '@/pages/CallBackPage.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: BlogPostsPage },
@@ -25,7 +25,7 @@ const routes = [
   { path: '/my-blogs', name: 'MyBlogs', component: MyBlogPage },
   { path: '/add-blog', name: 'AddBlog', component: AddBlogPage },
   { path: '/verify-blogs', name: 'VerifyBlogs', component: VerifyBlogsPage },
-  { path: '/callback', name: 'callback', component: CallBackVue },
+  { path: '/callback', name: 'callback', component: CallBackPage },
 ]
 
 router.beforeEach(async (to, from, next) => {

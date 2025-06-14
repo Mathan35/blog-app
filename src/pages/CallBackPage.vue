@@ -1,5 +1,5 @@
 <!-- src/views/Callback.vue -->
-<template>
+  <template>
     <div>Logging in...</div>
   </template>
   
