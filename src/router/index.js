@@ -9,6 +9,7 @@ import BlogDetailPage from '@/pages/BlogDetailPage.vue'
 import AddBlogPage from '@/pages/AddBlogPage.vue' 
 import MyBlogPage from '@/pages/MyBlogPage.vue' 
 import VerifyBlogsPage from '@/pages/VerifyBlogsPage.vue' 
+import CallBackVue from '@/pages/CallBack.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: BlogPostsPage },
@@ -24,8 +25,22 @@ const routes = [
   { path: '/my-blogs', name: 'MyBlogs', component: MyBlogPage },
   { path: '/add-blog', name: 'AddBlog', component: AddBlogPage },
   { path: '/verify-blogs', name: 'VerifyBlogs', component: VerifyBlogsPage },
-
+  { path: '/callback', name: 'callback', component: CallBackVue },
 ]
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if (!requiresAuth) return next()
+
+  try {
+    await Auth.currentAuthenticatedUser()
+    next()
+  } catch {
+    next('/login')
+  }
+})
+
 
 const router = createRouter({
   history: createWebHistory(),
