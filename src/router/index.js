@@ -6,41 +6,25 @@ import LikedBlogsPage from '@/pages/LikedBlogsPage.vue'
 import SettingsPage from '@/pages/SettingsPage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import BlogDetailPage from '@/pages/BlogDetailPage.vue'
-import AddBlogPage from '@/pages/AddBlogPage.vue' 
-import MyBlogPage from '@/pages/MyBlogPage.vue' 
-import VerifyBlogsPage from '@/pages/VerifyBlogsPage.vue' 
-import CallBackPage from '@/pages/CallBackPage.vue'
+import AddBlogPage from '@/pages/AddBlogPage.vue'
+import MyBlogPage from '@/pages/MyBlogPage.vue'
+import VerifyBlogsPage from '@/pages/VerifyBlogsPage.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: BlogPostsPage },
-  { path: '/liked', name: 'Liked', component: LikedBlogsPage },
-  { path: '/settings', name: 'Settings', component: SettingsPage },
-  { path: '/profile', name: 'Profile', component: ProfilePage },
+  { path: '/liked', name: 'Liked', component: LikedBlogsPage, meta: { requiresAuth: true } },
+  { path: '/settings', name: 'Settings', component: SettingsPage, meta: { requiresAuth: true } },
+  { path: '/profile', name: 'Profile', component: ProfilePage, meta: { requiresAuth: true } },
   {
-    path: '/blog/:id', 
+    path: '/blog/:id',
     name: 'BlogDetail',
-    component: BlogDetailPage, 
-    props: true 
+    component: BlogDetailPage,
+    props: true
   },
-  { path: '/my-blogs', name: 'MyBlogs', component: MyBlogPage },
-  { path: '/add-blog', name: 'AddBlog', component: AddBlogPage },
-  { path: '/verify-blogs', name: 'VerifyBlogs', component: VerifyBlogsPage },
-  { path: '/callback', name: 'callback', component: CallBackPage },
+  { path: '/my-blogs', name: 'MyBlogs', component: MyBlogPage, meta: { requiresAuth: true } },
+  { path: '/add-blog', name: 'AddBlog', component: AddBlogPage, meta: { requiresAuth: true } },
+  { path: '/verify-blogs', name: 'VerifyBlogs', component: VerifyBlogsPage, meta: { requiresAuth: true } },
 ]
-
-router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
-  if (!requiresAuth) return next()
-
-  try {
-    await Auth.currentAuthenticatedUser()
-    next()
-  } catch {
-    next('/login')
-  }
-})
-
 
 const router = createRouter({
   history: createWebHistory(),

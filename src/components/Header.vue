@@ -26,12 +26,14 @@
                 :class="[defaultClass, { [activeClass]: route.path === '/profile' }]">
                 👤 Profile
             </router-link>
+            <Authenticator></Authenticator>
         </nav>
     </div>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router'; // <--- ADD THIS LINE
+import Authenticator from '@/components/Authenticator.vue';
 
 const route = useRoute(); // <--- ADD THIS LINE to get the route object
 

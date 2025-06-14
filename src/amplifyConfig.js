@@ -1,7 +1,7 @@
 // amplifyConfig.js
 import { Amplify } from 'aws-amplify'
 
-Amplify.configure({
+export default {
   Auth: {
     region: 'us-east-1',
     userPoolId: 'us-east-us-east-1_jU2ZIl9hI',
@@ -14,4 +14,4 @@ Amplify.configure({
       scope: ['email', 'openid', 'profile'],
     }
   }
-})
+}
