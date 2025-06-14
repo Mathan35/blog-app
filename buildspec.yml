@@ -11,7 +11,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting up Amplify environment"
-      - amplify pull --yes --env production --appId d3n39g6wi0n3qw --region us-east-1
+      - amplify pull --yes --env prod --appId d3n39g6wi0n3qw --region us-east-1
 
   build:
     commands:
